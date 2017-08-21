@@ -1,0 +1,17 @@
+//---------CONCEPT
+Plan an house escape.
+Plan the rest of the house.
+
+//---------PROGRAMMING
+Make objects you pick collide with world.
+Create an event structure to create progresion in the house.
+
+//---------ART
+Finish the house model.
+	-Doors && Windows
+	-Basement
+	-2nd Floor
+	-Attic
+Make assets for the house divisions.
+	-All
+	-Texture
