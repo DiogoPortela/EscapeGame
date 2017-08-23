@@ -358,7 +358,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 875868436}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &311024922
 MeshRenderer:
@@ -590,7 +590,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 875868436}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &763212548
 MeshRenderer:
@@ -676,7 +676,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 875868436}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &800292580
 MeshRenderer:
@@ -837,6 +837,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1999326786}
   - {fileID: 311024921}
   - {fileID: 800292579}
   - {fileID: 763212547}
@@ -1461,6 +1462,91 @@ Transform:
   m_Father: {fileID: 248770799}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1687875379
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 875868436}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.043
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.99799085
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.49123523
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+  m_IsPrefabParent: 0
+--- !u!1 &1999326785 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+  m_PrefabInternal: {fileID: 1687875379}
+--- !u!4 &1999326786 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: 15dded79f6c765c41870804888066efb, type: 3}
+  m_PrefabInternal: {fileID: 1687875379}
+--- !u!114 &1999326787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999326785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b2d31ba3517655448b71d96db01f179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1999326788
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999326785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.12, y: 0.98809224, z: 1.9812884}
+  m_Center: {x: 0.020085, y: 0.4940451, z: 0}
+--- !u!135 &1999326789
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999326785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.9906442
+  m_Center: {x: 0.020085, y: 0.4940451, z: 0}
 --- !u!1 &2021686607
 GameObject:
   m_ObjectHideFlags: 0
