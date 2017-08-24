@@ -28,6 +28,8 @@ public class PlayerManager : MonoBehaviour
         momentum = Vector3.zero;
         rigidBody = GetComponent<Rigidbody>();
         lookingTarget_empty = GameObject.Find("PickUpTarget");
+
+        isCarring = false;
     }
 
     private void Update()
@@ -73,24 +75,25 @@ public class PlayerManager : MonoBehaviour
     {
         if (!isCarring)
             if (Physics.Raycast(new Ray(Camera.main.transform.position, Camera.main.transform.forward), out lookingInfo, 2f))
-                if (lookingInfo.collider.gameObject.layer == 8)
-                    lookingTarget = lookingInfo.collider.gameObject;
-                else
-                    lookingTarget = null;
+                lookingTarget = lookingInfo.collider.gameObject;
 
-
-        if (Input.GetKey(KeyCode.Z) && lookingTarget)
+        if (Input.GetKey(KeyCode.Z) && lookingTarget.layer == 8)
         {
             if (!isCarring)
             {
                 lookingTarget_RigidBody = lookingTarget.GetComponent<Rigidbody>();
                 lookingTarget_RigidBody.useGravity = false;
+                lookingTarget_RigidBody.velocity = Vector3.zero;
                 isCarring = true;
             }
-            lookingTarget.transform.position = lookingTarget_empty.transform.position;
+
+            lookingTarget.transform.position += (lookingTarget_empty.transform.position - lookingTarget.transform.position) * 5 * Time.deltaTime;
+
+            //lookingTarget.transform.position = lookingTarget_empty.transform.position;
         }
         else if (isCarring)
         {
+            lookingTarget_RigidBody.AddForce((lookingTarget_empty.transform.position - lookingTarget.transform.position) * 40);
             lookingTarget_RigidBody.useGravity = true;
             lookingTarget_RigidBody = null;
             lookingTarget = null;
