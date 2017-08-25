@@ -7,7 +7,8 @@ public class PlayerManager : MonoBehaviour
 
     public int MovementSpeed = 1;
     public int RotateSpeed = 2;
-    public int jumpingForce = 2;
+    public float jumpingForce = 2;
+    public float throwingForce = 0.7f;
 
     //  Movement
     private Vector3 momentum;
@@ -20,6 +21,9 @@ public class PlayerManager : MonoBehaviour
     private GameObject lookingTarget_empty;
     private GameObject lookingTarget;
     private Rigidbody lookingTarget_RigidBody;
+    private bool justDropped;
+    // Interact
+    private IInteractive interactionScript;
 
     private void Start()
     {
@@ -30,34 +34,33 @@ public class PlayerManager : MonoBehaviour
         lookingTarget_empty = GameObject.Find("PickUpTarget");
 
         isCarring = false;
-    }
-
-    private void Update()
-    {
-
+        justDropped = false;
     }
 
     private void FixedUpdate()
     {
         Carry();
+        Interact();
         Movement();
     }
 
     private void Movement()
     {
-        isFalling = !Physics.Raycast(this.transform.position + new Vector3(0, -0.7f, 0), Vector3.down, 0.3f);
-
+        isFalling = !Physics.Raycast(this.transform.position + new Vector3(0, -0.7f, 0), Vector3.down, 0.4f);
         if (!isFalling)
         {
             if (Input.GetKey(KeyCode.Space))
-                rigidBody.AddForce(new Vector3(0, jumpingForce, 0));
-            momentum.Set(Input.GetAxis("Horizontal") * MovementSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * MovementSpeed * Time.deltaTime);
+            {
+                rigidBody.AddRelativeForce(new Vector3(0, jumpingForce, 0) /*+ momentum*/, ForceMode.Impulse);
+            }
         }
 
+        momentum.Set(Input.GetAxis("Horizontal") * MovementSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * MovementSpeed * Time.deltaTime);
         if (momentum != Vector3.zero)
         {
             this.transform.Translate(momentum);
         }
+
         if (Input.GetAxis("Mouse X") != 0)
         {
             this.transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * RotateSpeed, 0));
@@ -77,7 +80,7 @@ public class PlayerManager : MonoBehaviour
             if (Physics.Raycast(new Ray(Camera.main.transform.position, Camera.main.transform.forward), out lookingInfo, 2f))
                 lookingTarget = lookingInfo.collider.gameObject;
 
-        if (Input.GetKey(KeyCode.Z) && lookingTarget.layer == 8)
+        if (lookingTarget && Input.GetKey(KeyCode.Mouse0) && lookingTarget.layer == 8 && !justDropped)
         {
             if (!isCarring)
             {
@@ -87,17 +90,39 @@ public class PlayerManager : MonoBehaviour
                 isCarring = true;
             }
 
-            lookingTarget.transform.position += (lookingTarget_empty.transform.position - lookingTarget.transform.position) * 5 * Time.deltaTime;
+            else if (Input.GetKey(KeyCode.Mouse1))
+            {
+                lookingTarget_RigidBody.AddForce((lookingTarget_empty.transform.forward) * throwingForce, ForceMode.Impulse);
+                lookingTarget_RigidBody.useGravity = true;
+                lookingTarget_RigidBody = null;
+                lookingTarget = null;
+                isCarring = false;
+                justDropped = true;
+            }
+            else
+                lookingTarget.transform.position += (lookingTarget_empty.transform.position - lookingTarget.transform.position) * 5 * Time.deltaTime;
 
-            //lookingTarget.transform.position = lookingTarget_empty.transform.position;
         }
+        else if (justDropped && Input.GetKeyUp(KeyCode.Mouse0))
+            justDropped = false;
         else if (isCarring)
         {
-            lookingTarget_RigidBody.AddForce((lookingTarget_empty.transform.position - lookingTarget.transform.position) * 40);
+            lookingTarget_RigidBody.AddForce((lookingTarget_empty.transform.position - lookingTarget.transform.position) * throwingForce, ForceMode.Impulse);
             lookingTarget_RigidBody.useGravity = true;
             lookingTarget_RigidBody = null;
-            lookingTarget = null;
             isCarring = false;
+        }
+    }
+    private void Interact()
+    {
+        if (lookingTarget)
+        {
+            if (Input.GetKeyDown(KeyCode.E) && (interactionScript = lookingTarget.GetComponent<IInteractive>()) != null)
+                interactionScript.Interact();
+            else if (Input.GetKeyUp(KeyCode.E) && (interactionScript = lookingTarget.GetComponent<IInteractive>()) != null)
+                interactionScript.InteractEnd();
+            else if (lookingTarget && Input.GetKey(KeyCode.E) && (interactionScript = lookingTarget.GetComponent<IInteractive>()) != null)
+                interactionScript.InteractConstantly();
         }
     }
 }
